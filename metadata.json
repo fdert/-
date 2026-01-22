@@ -1,0 +1,7 @@
+{
+  "name": "Copy of ArCRM WhatsApp - نظام إدارة علاقات العملاء",
+  "description": "نظام CRM متكامل باللغة العربية لإدارة محادثات واتساب، توزيع المهام، وتقارير الأداء مع دعم للذكاء الاصطناعي.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
