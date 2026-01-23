@@ -1,7 +1,7 @@
 
-import { Conversation, Message, User, Contact } from '../types';
+import { Conversation, Message, User, Contact, Complaint } from '../types';
 
-// بما أن التطبيق سيعمل على نفس الدومين، نستخدم المسار النسبي
+// المسار التلقائي للسيرفر
 const API_BASE_URL = '/api'; 
 
 export const apiService = {
@@ -17,23 +17,28 @@ export const apiService = {
     return res.json();
   },
 
-  async sendMessage(conversationId: string, text: string): Promise<Message> {
+  async sendMessage(conversationId: string, text: string, type: string = 'text'): Promise<Message> {
     const res = await fetch(`${API_BASE_URL}/messages`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ conversationId, text, direction: 'OUTBOUND' })
+      body: JSON.stringify({ conversationId, text, direction: 'OUTBOUND', type })
     });
     if (!res.ok) throw new Error('Failed to send message');
     return res.json();
   },
 
-  async getUsers(): Promise<User[]> {
-    const res = await fetch(`${API_BASE_URL}/users`);
+  async getContacts(): Promise<Contact[]> {
+    const res = await fetch(`${API_BASE_URL}/contacts`);
+    if (!res.ok) return [];
     return res.json();
   },
 
-  async getContacts(): Promise<Contact[]> {
-    const res = await fetch(`${API_BASE_URL}/contacts`);
+  async addContact(contact: Partial<Contact>): Promise<Contact> {
+    const res = await fetch(`${API_BASE_URL}/contacts`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(contact)
+    });
     return res.json();
   }
 };
